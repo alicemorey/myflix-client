@@ -15,7 +15,7 @@ export const MainView = () => {
     },
     {   id: 2, 
         title: "Great Expectations",
-        description:"A contemporary film adaptation of Charles Dickens’s 1861 novel of the same name, it is known for having moved the setting of the original novel from 1812-1827 London to 1990s New York.",
+        description:"A contemporary film adaptation of Charles Dickens 1861 novel of the same name, it is known for having moved the setting of the original novel from 1812-1827 London to 1990s New York.",
         year:"1998",
         genre:"Romance", 
         image:"https://en.wikipedia.org/wiki/Great_Expectations_(1998_film)#/media/File:Great_expectations_poster.jpg",
