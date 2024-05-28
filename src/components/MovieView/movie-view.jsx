@@ -1,28 +1,34 @@
 import React from "react";
 
 export const MovieView = ({ movie, onBackClick }) => {
-    return (
+  return (
+    <div>
       <div>
-        <div>
-          <img src={movie.image} alt={'Movie'}/>
-        </div>
-        <div>
-          <span>Title: </span>
-          <span>{movie.title}</span>
-        </div>
-        <div>
+        <img src={movie.image} />
+      </div>
+      <div>
+        <span>Title: </span>
+        <span>{movie.title}</span>
+      </div>
+      <div>
         <span>Description: </span>
         <span>{movie.description}</span>
-        </div>
-        <div>
+      </div>
+      <div>
         <span>Genre: </span>
         <span>{movie.genre}</span>
+      </div>
+      <div>
+        <span>Director: </span>
+        <span>{movie.director.name}</span>
+        <div>
+        <span>Bio:{movie.director.bio}</span>
         </div>
         <div>
-          <span>Director: </span>
-          <span>{movie.director}</span>
+        <span>Birth:{movie.director.birth}</span>
         </div>
-        <button onClick={onBackClick}>Back</button>
       </div>
-    );
-  };
+      <button onClick={onBackClick}>Back</button>
+    </div>
+  );
+};
