@@ -22,7 +22,7 @@ export const MainView = () => {
               bio: movie.Director.Bio,
               birth: movie.Director.Birth
             },
-            image: "",
+            image: movie.ImagePath,
           };
         });
         setMovies(moviesFromApi);
