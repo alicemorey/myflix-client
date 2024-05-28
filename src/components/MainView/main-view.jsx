@@ -11,7 +11,11 @@ export const MainView = () => {
     .then((response) => response.json())
       .then((data) => {
         console.log("movies from api:", data);
+<<<<<<< Updated upstream
         const moviesFromApi = data.map((movie) => {
+=======
+        const moviesFromApi = data.docs.map((movie) => {
+>>>>>>> Stashed changes
           return {
             id: movie._id,
             title: movie.Title,
