@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 export const LoginView = ({ onLoggedIn }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -8,10 +9,10 @@ export const LoginView = ({ onLoggedIn }) => {
 
     const data = {
       Username: username,
-      Password: password,
+      Password: password
     };
 
-    fetch("CONNECTION_URL/login", {
+    fetch("https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -23,6 +24,8 @@ export const LoginView = ({ onLoggedIn }) => {
         console.log("Login response: ", data);
 
         if (data.user) {
+          localStorage.setItem("user", JSON.stringify(data.user));
+          localStorage.setItem("token", data.token);
           onLoggedIn(data.user, data.token);
         } else {
           alert("No such user");
@@ -31,6 +34,7 @@ export const LoginView = ({ onLoggedIn }) => {
       .catch((e) => {
         alert("Something went wrong");
       });
+    };
 
   return (
     <form onSubmit={handleSubmit}>
@@ -55,4 +59,3 @@ export const LoginView = ({ onLoggedIn }) => {
       <button type="submit">Submit</button>
     </form>
 )};
-};
