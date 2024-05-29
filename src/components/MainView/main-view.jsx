@@ -26,7 +26,7 @@ export const MainView = () => {
             image: movie.ImagePath,
           };
         });
-        setBooks(moviesFromApi);
+        setMovies(moviesFromApi);
       });
   }, []);
 
