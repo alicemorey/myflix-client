@@ -1,4 +1,10 @@
-$color: rgb(37, 55, 174);
+
+$primary: DarkSalmon;
+$body-bg: LavenderBlush;
+
+@import '~bootstrap/scss/bootstrap.scss';
+
+$color: Olive;
 $font-family: 'Arial, Helvetica, sans-serif';
 $font-size: 20px;
 
@@ -7,4 +13,23 @@ $font-size: 20px;
   color: $color;
   font-family: $font-family;
   font-size: $font-size;
+}
+
+.logout-button {
+  padding: 4px 12px 4px 12px;
+  color: whitesmoke;
+  background-color: dodgerblue;
+  border: none;
+  border-radius: 4px;
+}
+
+.submit-button {
+  padding: 4px 12px 4px 12px;
+  color: whitesmoke;
+  background-color: DarkSalmon;
+  font-family: $font-family;
+  border: none;
+  border-radius: 4px;
+  
+
 }

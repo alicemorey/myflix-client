@@ -63,7 +63,7 @@ return (
       />
     ): movies.length === 0 ? (
       <>
-        <button
+        <button className="logout-button"
           onClick={() => {
             setUser(null);
             setToken(null); 
@@ -75,14 +75,8 @@ return (
     <div>The list is empty!</div>;
     </>
     ):(
+    <>
    <Row>
-     <button
-        onClick={() => {
-          setUser(null);
-        }}
-      >
-        Logout
-      </button>
       {movies.map((movie) => (
         <Col className="mb-5" key={movie.id} md={3}>
         <MovieCard
@@ -94,6 +88,15 @@ return (
         </Col>
       ))}
     </Row>
+    <button className="logout-button"
+        onClick={() => {
+          setUser(null);
+        }}
+      >
+        Logout 
+      </button>
+      </>
+
   )}
   </div>
   );
