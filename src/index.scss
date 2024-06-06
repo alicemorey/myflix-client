@@ -21,6 +21,7 @@ $font-size: 20px;
   background-color: dodgerblue;
   border: none;
   border-radius: 4px;
+  font-size: $font-size;
 }
 
 .submit-button {
@@ -30,6 +31,6 @@ $font-size: 20px;
   font-family: $font-family;
   border: none;
   border-radius: 4px;
-  
+  font-size: $font-size;
 
 }

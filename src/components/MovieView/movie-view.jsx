@@ -1,12 +1,16 @@
 import React from "react";
+import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import "./movie-view.scss";
 import Col from 'react-bootstrap/Col';
 
-export const MovieView = ({ movie, onBackClick }) => {
+export const MovieView = ({ movie}) => {
+  const { movieId } = useParams();
+  const movie = movies.find((m) => m.id === movieId);
   return (
     <div>
       <div>
-        <img src={movie.imagePath} />
+        <img src={movie.ImagePath} />
       </div>
       <div>
         <span>Title: </span>
@@ -30,9 +34,11 @@ export const MovieView = ({ movie, onBackClick }) => {
         <span>Birth:{movie.director.birth}</span>
         </div>
       </div>
-      <button onClick={onBackClick} className="back-button" style={{ cursor: "pointer" }}> 
+      <Link to={`/`}> 
+      <button className="back-button" style={{ cursor: "pointer" }}> 
       Back 
       </button>
+      </Link>
     </div>
   );
 };
