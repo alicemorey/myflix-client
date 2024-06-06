@@ -1,18 +1,19 @@
 import React from "react";
+import { useState, useEffect } from "react";
 import { useParams } from "react-router";
 import { Link } from "react-router-dom";
-import "./movie-view.scss";
 import Col from 'react-bootstrap/Col';
+import "./movie-view.scss";
 
-export const MovieView = ({ movie}) => {
+export const MovieView = ({movies}) => {
   const { movieId } = useParams();
-  const movie = movies.find((m) => m.id === movieId);
+  const movie = movies.find((b) => b.id === movieId);
   return (
     <div>
       <div>
-        <img src={movie.ImagePath} />
+        <img src={movie.image} width={600} className="image"/>
       </div>
-      <div>
+      <div className="movie-title">
         <span>Title: </span>
         <span>{movie.title}</span>
       </div>
