@@ -3,23 +3,31 @@ import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
 import { LoginView } from "../LoginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
+import { ProfileView } from "../ProfileView/profile-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import { Container } from "react-bootstrap";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import { NavigationBar } from "../NavigationBar/navigation-bar";
 
 export const MainView = () => {
-const storedUser = JSON.parse(localStorage.getItem("user"));
-const storedToken = localStorage.getItem("token");
-const [user, setUser] = useState(storedUser? storedUser : null);
-const [token, setToken] = useState(null);
-const [movies, setMovies] = useState([]);
-const [selectedMovie, setSelectedMovie] = useState(null);
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const storedToken = localStorage.getItem("token");
+  const [user, setUser] = useState(storedUser ? storedUser : null);
+  const [token, setToken] = useState(storedToken ? storedToken : null);
+  const [movies, setMovies] = useState([]);
+  const [filter, setFilter] = useState("");
 
-  
-  useEffect(()=> {
+  const handleToggleFavorite = (movieId, isFavorite) => {
+    console.log(`Toggle favorite for movie with ID ${movieId} (${isFavorite ? 'Add to favorites' : 'Remove from favorites'})`);
+  };
+
+  useEffect(() => {
     if (!token) return;
-    fetch ("https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/movies",{
-    headers: { Authorization: `Bearer ${token}` },
-   })
+
+    fetch("https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/movies", {
+      headers: { Authorization: `Bearer ${token}` },
+    })
       .then((response) => response.json())
       .then((data) => {
         console.log("movies from api:", data);
@@ -27,77 +35,118 @@ const [selectedMovie, setSelectedMovie] = useState(null);
           return {
             id: movie._id,
             title: movie.Title,
+            image: movie.ImagePath,
             description: movie.Description,
             genre: movie.Genre,
             director: {
               name: movie.Director.Name,
               bio: movie.Director.Bio,
-              birth: movie.Director.Birth
+              birth: movie.Director.Birth,
             },
-            image: movie.ImagePath,
           };
         });
         setMovies(moviesFromApi);
       });
   }, [token]);
 
-return (
-  <div>
- {!user ? (
-      <>
-    <LoginView 
-      onLoggedIn={(user, token) => {
-      setUser(user);
-      setToken(token);
-    }}
-    />
-      or
-      <SignupView/>
-      </>
-    ): selectedMovie ? (
-      <MovieView 
-        movie={selectedMovie}
-        onBackClick={() => {
-          setSelectedMovie(null);
+  const handleFilterChange = (event) => {
+    setFilter(event.target.value);
+  };
+
+  const filteredMovies = movies.filter((movie) =>
+    movie.title.toLowerCase().includes(filter.toLowerCase())
+  );
+
+  return (
+    <BrowserRouter>
+      <NavigationBar
+        user={user}
+        onLoggedOut={() => {
+          setUser(null);
+          setToken(null);
+          localStorage.clear();
         }}
       />
-    ): movies.length === 0 ? (
-      <>
-        <button className="logout-button"
-          onClick={() => {
-            setUser(null);
-            setToken(null); 
-            localStorage.clear();
-          }}
-        >
-          Logout
-        </button>
-    <div>The list is empty!</div>;
-    </>
-    ):(
-    <>
-   <Row>
-      {movies.map((movie) => (
-        <Col className="mb-5" key={movie.id} md={3}>
-        <MovieCard
-          movie={movie}
-          onMovieClick={(newSelectedMovie) => {
-            setSelectedMovie(newSelectedMovie);
-          }}
-        />
-        </Col>
-      ))}
-    </Row>
-    <button className="logout-button"
-        onClick={() => {
-          setUser(null);
-        }}
-      >
-        Logout 
-      </button>
-      </>
-
-  )}
-  </div>
+      <Container>
+        <Row className="justify-content-md-center">
+          <Routes>
+            <Route
+              path="/signup"
+              element={
+                  user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <SignupView />
+                    </Col>
+                  )
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                user ? (
+                    <Navigate to="/" />
+                  ) : (
+                    <Col md={5}>
+                      <LoginView
+                        onLoggedIn={(user, token) => {
+                          setUser(user);
+                          setToken(token);
+                          localStorage.setItem("user", JSON.stringify(user));
+                          localStorage.setItem("token", token);
+                        }}
+                      />
+                    </Col>
+                  )
+              }
+            />
+            <Route
+              path="/movies/:movieId"
+              element={
+                !user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <Col md={8}>
+                      <MovieView movies={movies} />
+                    </Col>
+                  )
+                }
+            />
+            <Route
+              path="/"
+              element={
+                !user ? (
+                    <Navigate to="/login" replace />
+                  ) : movies.length === 0 ? (
+                    <Col>The list is empty!</Col>
+                  ) : (
+                    <>
+                      <input
+                        type="text"
+                        placeholder="Search movies..."
+                        value={filter}
+                        onChange={handleFilterChange}
+                      />
+                      {filteredMovies.map((movie) => (
+                        <Col md={3} sm={6} xs={12} className="movie-card-col" key={movie.id}>
+                        <MovieCard
+                          movie={movie}
+                          user={user}
+                          token={token}
+                          onToggleFavorite={handleToggleFavorite}
+                          />
+                        </Col>
+                      ))}
+                    </>
+                  )
+                }
+            />
+          </Routes>
+        </Row>
+      </Container>
+    </BrowserRouter>
   );
 };
