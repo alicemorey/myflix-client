@@ -3,6 +3,7 @@ import { MovieCard } from "../MovieCard/movie-card";
 import { MovieView } from "../MovieView/movie-view";
 import { LoginView } from "../LoginView/login-view";
 import { SignupView } from "../SignupView/signup-view";
+import { ProfileView } from "../ProfileView/profile-view";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { Container } from "react-bootstrap";
@@ -131,9 +132,11 @@ export const MainView = () => {
                       />
                       {filteredMovies.map((movie) => (
                         <Col md={3} sm={6} xs={12} className="movie-card-col" key={movie.id}>
-                          <MovieCard
-                            movie={movie}
-                            onToggleFavorite={handleToggleFavorite}
+                        <MovieCard
+                          movie={movie}
+                          user={user}
+                          token={token}
+                          onToggleFavorite={handleToggleFavorite}
                           />
                         </Col>
                       ))}
