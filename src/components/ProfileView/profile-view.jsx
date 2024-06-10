@@ -57,6 +57,23 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onUserDeregiste
     });
   };
 
+  const handleToggleFavorite = (movieId, isAdding) => {
+    const updatedUser = {
+      ...user,
+      FavoriteMovies: isAdding
+        ? [...user.FavoriteMovies, movieId]
+        : user.FavoriteMovies.filter(id => id !== movieId)
+    };
+
+    onUserUpdate(updatedUser);
+
+    setFavoriteMovies(
+      isAdding
+        ? [...favoriteMovies, movies.find(m => m.id === movieId)]
+        : favoriteMovies.filter(m => m.id !== movieId)
+    );
+  };
+
   return (
     <Row className="justify-content-md-center">
       <Col md={5}>
@@ -110,7 +127,15 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onUserDeregiste
         <Row>
           {favoriteMovies.map(movie => (
             <Col md={4} key={movie.id}>
-              <MovieCard movie={movie} />
+              <MovieCard movie={movie} user={user} token={token} onToggleFavorite={handleToggleFavorite} />
+            </Col>
+          ))}
+        </Row>
+        <h4>All Movies</h4>
+        <Row>
+          {movies.map(movie => (
+            <Col md={4} key={movie.id}>
+              <MovieCard movie={movie} user={user} token={token} onToggleFavorite={handleToggleFavorite} />
             </Col>
           ))}
         </Row>
@@ -118,3 +143,4 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onUserDeregiste
     </Row>
   );
 };
+

@@ -18,9 +18,6 @@ export const MainView = () => {
   const [movies, setMovies] = useState([]);
   const [filter, setFilter] = useState("");
 
-  const handleToggleFavorite = (movieId, isFavorite) => {
-    console.log(`Toggle favorite for movie with ID ${movieId} (${isFavorite ? 'Add to favorites' : 'Remove from favorites'})`);
-  };
 
   useEffect(() => {
     if (!token) return;
@@ -48,6 +45,10 @@ export const MainView = () => {
         setMovies(moviesFromApi);
       });
   }, [token]);
+
+  const handleToggleFavorite = (movieId, isFavorite) => {
+    console.log(`Toggle favorite for movie with ID ${movieId} (${isFavorite ? 'Add to favorites' : 'Remove from favorites'})`);
+  };
 
   const handleFilterChange = (event) => {
     setFilter(event.target.value);
@@ -144,6 +145,7 @@ export const MainView = () => {
                   )
                 }
             />
+             <Route path="/profile" element={<ProfileView user={user} token={token} movies={movies} onUserUpdate={setUser} onUserDeregister={() => {}} />} />
           </Routes>
         </Row>
       </Container>

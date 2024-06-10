@@ -8,6 +8,10 @@ export const MovieCard = ({ movie, user, token, onToggleFavorite }) => {
   const isFavorite = user.FavoriteMovies.includes(movie.id);
 
   const handleToggleFavorite = () => {
+    console.log('Toggle favorite button clicked');
+    console.log('Movie ID:', movie.id);
+    console.log('Is favorite:', isFavorite);
+    
     fetch(`https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/users/${user.Username}/movies/${movie.id}`, {
       method: isFavorite ? "DELETE" : "POST",
       headers: { Authorization: `Bearer ${token}` },
