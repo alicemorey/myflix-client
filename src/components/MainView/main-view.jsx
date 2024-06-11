@@ -47,7 +47,25 @@ export const MainView = () => {
   }, [token]);
 
   const handleToggleFavorite = (movieId, isFavorite) => {
-    console.log(`Toggle favorite for movie with ID ${movieId} (${isFavorite ? 'Add to favorites' : 'Remove from favorites'})`);
+    const method = isFavorite ? 'POST' : 'DELETE';
+    fetch(`https://myflix-movies2024-b07bf2b16bbc.herokuapp.com/users/${user.Username}/movies/${movieId}`, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`
+      }
+    }).then(response => {
+      if (response.ok) {
+        const updatedFavoriteMovies = isFavorite
+          ? [...user.FavoriteMovies, movieId]
+          : user.FavoriteMovies.filter(id => id !== movieId);
+        const updatedUser = { ...user, FavoriteMovies: updatedFavoriteMovies };
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+      } else {
+        alert("Could not update favorites");
+      }
+    });
   };
 
   const handleFilterChange = (event) => {
@@ -145,7 +163,10 @@ export const MainView = () => {
                   )
                 }
             />
-             <Route path="/profile" element={<ProfileView user={user} token={token} movies={movies} onUserUpdate={setUser} onUserDeregister={() => {}} />} />
+             <Route path="/profile" 
+             element={<ProfileView user={user} 
+             token={token} movies={movies} 
+             onUserUpdate={setUser} onUserDeregister={() => {}} />} />
           </Routes>
         </Row>
       </Container>

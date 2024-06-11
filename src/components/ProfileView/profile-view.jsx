@@ -11,7 +11,7 @@ export const ProfileView = ({ user, token, movies, onUserUpdate, onUserDeregiste
   const [favoriteMovies, setFavoriteMovies] = useState([]);
 
   useEffect(() => {
-    const favoriteMovies = movies.filter(m => user.FavoriteMovies.includes(m.id));
+    const favoriteMovies = movies.filter( m => user.FavoriteMovies.includes(m.id));
     setFavoriteMovies(favoriteMovies);
   }, [user, movies]);
 
