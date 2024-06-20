@@ -42,7 +42,7 @@ Installation:
                                   
                                   parcel index.html
                                   
-● Open the Web Browser at http://localhost:1234
+● Open the Web Browser at https://myflix2024.netlify.app/
 
 
 ● Install Parcel as a local developer dependency inside your project
